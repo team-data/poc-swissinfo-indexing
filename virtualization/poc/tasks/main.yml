@@ -1,0 +1,8 @@
+- name: Install PHP packages
+  apt:
+    pkg: '{{ item }}'
+    state: latest
+  become: yes
+  with_items:
+    - "php7.2-mbstring"
+    - "php7.2-xml"

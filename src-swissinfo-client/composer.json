@@ -1,0 +1,10 @@
+{
+  "name": "liip/swissinfo-client",
+  "license": "LGPL-3.0",
+  "description": "Swissinfo API Client",
+  "require": {
+    "php": ">= 7.2",
+    "ext-json": "*",
+    "php-http/client-common": "2.x-dev"
+  }
+}

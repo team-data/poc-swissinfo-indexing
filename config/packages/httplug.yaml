@@ -1,0 +1,15 @@
+httplug:
+    plugins:
+        redirect:
+            preserve_header: true
+
+    discovery:
+        client: 'auto'
+
+    clients:
+        swissinfo:
+            http_methods_client: true
+            plugins:
+                - 'httplug.plugin.redirect'
+                - base_uri:
+                      uri: 'https://www.swissinfo.ch/webservice/swi-eng-2.0'
