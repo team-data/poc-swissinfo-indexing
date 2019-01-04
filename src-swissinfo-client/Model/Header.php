@@ -7,17 +7,20 @@ namespace Liip\SwissinfoClient\Model;
 class Header implements ModelInterface
 {
     /**
-     * @var string|null
+     * @var string
      */
     private $title;
+
     /**
-     * @var string|null
+     * @var string
      */
     private $id;
+
     /**
      * @var string|null
      */
     private $language;
+
     /**
      * @var string|null
      */
@@ -29,9 +32,14 @@ class Header implements ModelInterface
     private $canonical;
 
     /**
-     * @var \DateTimeImmutable|null
+     * @var \DateTimeImmutable
      */
     private $date;
+
+    /**
+     * @var SubjectTag[]
+     */
+    private $subjectTags = [];
 
     private function __construct()
     {
@@ -40,12 +48,10 @@ class Header implements ModelInterface
     public static function create(array $data): self
     {
         $i = new self();
-        if (array_key_exists('id', $data)) {
-            $i->id = $data['id'];
-        }
-        if (array_key_exists('title', $data)) {
-            $i->title = $data['title'];
-        }
+        $i->id = $data['id'] ?? '';
+        $i->title = $data['title'] ?? '';
+        $i->date = new \DateTimeImmutable($data['date'] ?? 'now');
+
         if (array_key_exists('language', $data)) {
             $i->language = $data['language'];
         }
@@ -55,10 +61,51 @@ class Header implements ModelInterface
         if (array_key_exists('canonical', $data)) {
             $i->canonical = $data['canonical'];
         }
-        if (array_key_exists('date', $data)) {
-            $i->date = new \DateTimeImmutable($data['date']);
+
+        if (\is_array($data['subjectTags'] ?? null)) {
+            foreach ($data['subjectTags'] as $tagData) {
+                $i->subjectTags[] = SubjectTag::create($tagData);
+            }
         }
 
         return $i;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getLanguage(): ?string
+    {
+        return $this->language;
+    }
+
+    public function getSource(): ?string
+    {
+        return $this->source;
+    }
+
+    public function getCanonical(): ?string
+    {
+        return $this->canonical;
+    }
+
+    public function getDate(): \DateTimeImmutable
+    {
+        return $this->date;
+    }
+
+    /**
+     * @return SubjectTag[]
+     */
+    public function getSubjectTags(): array
+    {
+        return $this->subjectTags;
     }
 }

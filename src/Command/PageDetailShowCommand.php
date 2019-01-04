@@ -10,9 +10,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class PageShowCommand extends Command
+class PageDetailShowCommand extends Command
 {
-    protected static $defaultName = 'page:show';
+    protected static $defaultName = 'page:detail:show';
 
     /**
      * @var Client
@@ -28,19 +28,19 @@ class PageShowCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Fetch the given page from the API')
-            ->addArgument('page-id', InputArgument::REQUIRED, 'The page id')
+            ->setDescription('Fetch the given page-detail from the API')
+            ->addArgument('id', InputArgument::REQUIRED, 'The page-detail id. Example: "42579868/40001118"')
         ;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
-        $pageId = $input->getArgument('page-id');
-        if (!is_string($pageId)) {
-            throw new \InvalidArgumentException('Invalid argument for page-id');
+        $id = $input->getArgument('id');
+        if (!\is_string($id)) {
+            throw new \InvalidArgumentException('Invalid argument for page-detail ID');
         }
 
-        $pageDetail = $this->apiClient->getPageDetail($pageId);
+        $pageDetail = $this->apiClient->getPageDetail($id);
 
         dump($pageDetail);
     }

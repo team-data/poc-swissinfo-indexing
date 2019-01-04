@@ -59,9 +59,9 @@ class PageItem implements ModelInterface
     {
         $i = new self();
 
-        if (array_key_exists('id', $data)) {
-            $i->id = $data['id'];
-        }
+        $i->url = $data['url'] ?? '';
+        $i->id = $data['id'] ?? '';
+
         if (array_key_exists('title', $data)) {
             $i->title = $data['title'];
         }
@@ -77,9 +77,6 @@ class PageItem implements ModelInterface
         if (array_key_exists('date', $data)) {
             $i->date = new \DateTimeImmutable($data['date']);
         }
-        if (array_key_exists('url', $data)) {
-            $i->url = $data['url'];
-        }
         if (array_key_exists('text', $data)) {
             $i->text = $data['text'];
         }
@@ -88,5 +85,20 @@ class PageItem implements ModelInterface
         }
 
         return $i;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
     }
 }

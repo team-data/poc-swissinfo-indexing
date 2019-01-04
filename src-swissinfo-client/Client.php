@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Liip\SwissinfoClient;
 
+use function GuzzleHttp\Psr7\build_query;
 use Http\Client\HttpClient;
 use Http\Message\MessageFactory;
 use Liip\SwissinfoClient\Exception\APIException;
@@ -12,7 +13,6 @@ use Liip\SwissinfoClient\Hydrator\Hydrator;
 use Liip\SwissinfoClient\Hydrator\ModelHydrator;
 use Liip\SwissinfoClient\Model\PageDetail;
 use Psr\Http\Message\ResponseInterface;
-use function GuzzleHttp\Psr7\build_query;
 
 class Client
 {
@@ -38,6 +38,9 @@ class Client
         $this->hydrator = new ModelHydrator();
     }
 
+    /**
+     * @throws APIException
+     */
     public function getPageDetail(string $pageId): PageDetail
     {
         $request = $this->messageFactory->createRequest('GET', $this->getApiUri('detail/'.$pageId));
@@ -68,7 +71,7 @@ class Client
      *
      * Call is controlled by the specific API methods.
      *
-     * @throws Exception
+     * @throws APIException
      */
     protected function handleErrors(ResponseInterface $response): void
     {

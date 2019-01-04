@@ -23,12 +23,12 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
-
-    # Swissinfo API Client Configuration
     Liip\SwissinfoClient\:
         resource: '../src-swissinfo-client/*'
 
     Liip\SwissinfoClient\Client:
         $client: '@httplug.client.swissinfo'
+
+    Pnz\Messenger\FilesystemTransport\FilesystemTransportFactory:
+        arguments:
+            $serializer: '@messenger.transport.symfony_serializer'

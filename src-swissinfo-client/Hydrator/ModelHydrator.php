@@ -6,6 +6,7 @@ namespace Liip\SwissinfoClient\Hydrator;
 
 use Liip\SwissinfoClient\Exception\HydrationException;
 use Liip\SwissinfoClient\Model\ModelInterface;
+use Pnz\JsonException\Json;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -20,9 +21,14 @@ class ModelHydrator implements Hydrator
             throw new HydrationException('The ModelHydrator cannot hydrate response with Content-Type:'.$response->getHeaderLine('Content-Type'));
         }
 
-        $data = json_decode($body, true);
-        if (JSON_ERROR_NONE !== json_last_error()) {
-            throw new HydrationException(sprintf('Error (%d) when trying to json_decode response', json_last_error()));
+        try {
+            $data = Json::decode($body, true);
+        } catch (\JsonException $exception) {
+            throw new HydrationException(
+                'Error when trying to decode response:',
+                $exception->getCode(),
+                $exception
+            );
         }
 
         $callback = [$class, 'create'];

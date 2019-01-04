@@ -1,0 +1,7 @@
+framework:
+    messenger:
+        transports:
+            filesystem: '%env(resolve:MESSENGER_TRANSPORT_DSN)%'
+
+        routing:
+            '*' : 'filesystem'

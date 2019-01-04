@@ -6,4 +6,4 @@ set -e
 phive install
 
 ./tools/php-cs-fixer fix -v --dry-run
-./tools/phpstan analyze --level=7 src/ src-kirby-client/ src-solarium-clustering/
+./tools/phpstan analyze --level=7 src/ src-swissinfo-client/

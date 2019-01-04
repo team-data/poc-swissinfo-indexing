@@ -7,7 +7,7 @@ namespace Liip\SwissinfoClient\Model;
 class PageDetail implements ModelInterface
 {
     /**
-     * @var Header|null
+     * @var Header
      */
     private $header;
 
@@ -17,7 +17,7 @@ class PageDetail implements ModelInterface
     private $htmlDetail;
 
     /**
-     * @var Footer|null
+     * @var Footer
      */
     private $footer;
 
@@ -28,20 +28,14 @@ class PageDetail implements ModelInterface
     public static function create(array $data): self
     {
         $i = new self();
-        if (array_key_exists('header', $data)) {
-            $i->header = Header::create($data['header']);
-        }
-        if (array_key_exists('htmldetail', $data)) {
-            $i->htmlDetail = $data['htmldetail'];
-        }
-        if (array_key_exists('footer', $data)) {
-            $i->footer = Footer::create($data['footer']);
-        }
+        $i->header = Header::create($data['header'] ?? []);
+        $i->footer = Footer::create($data['footer'] ?? []);
+        $i->htmlDetail = $data['htmldetail'] ?? null;
 
         return $i;
     }
 
-    public function getHeader(): ?Header
+    public function getHeader(): Header
     {
         return $this->header;
     }
@@ -51,7 +45,7 @@ class PageDetail implements ModelInterface
         return $this->htmlDetail;
     }
 
-    public function getFooter(): ?Footer
+    public function getFooter(): Footer
     {
         return $this->footer;
     }

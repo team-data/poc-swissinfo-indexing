@@ -9,18 +9,17 @@ class Footer implements ModelInterface
     /**
      * @var PageItem[]
      */
-    private $related;
+    private $related = [];
 
     private function __construct()
     {
-        $this->related = [];
     }
 
     public static function create(array $data): self
     {
         $i = new self();
 
-        if (array_key_exists('related', $data)) {
+        if (\is_array($data['related'] ?? null)) {
             foreach ($data['related'] as $related) {
                 $i->related[] = PageItem::create($related);
             }

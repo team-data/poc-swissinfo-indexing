@@ -1,0 +1,55 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Index;
+
+use App\Model\SearchResult;
+use Liip\SwissinfoClient\Model\PageDetail;
+use Solarium\QueryType\Select\Result\Document as ResultDocument;
+use Solarium\QueryType\Update\Query\Document\Document as UpdateDocument;
+
+class SolrPageDetailEntity
+{
+    const SOLR_DATE_FORMAT = 'Y-m-d\TH:i:s\Z';
+
+    public static function getSolrUpdateDocuments(PageDetail $pageDetail, string $id): UpdateDocument
+    {
+        $d = new UpdateDocument();
+        $header = $pageDetail->getHeader();
+        $d->addField('id', $id);
+        $d->addField('language_s', $header->getLanguage());
+        $d->addField('title_s', $header->getTitle());
+        $d->addField('title_txt', $header->getTitle());
+        $d->addField('date_date', self::getDate($header->getDate()));
+
+        $d->addField('canonical_s', $header->getCanonical());
+
+        $d->addField('contents_txt', $pageDetail->getHtmlDetail());
+
+        return $d;
+    }
+
+    public static function buildSearchResult(ResultDocument $doc): SearchResult
+    {
+        $s = new SearchResult();
+        $fields = $doc->getFields();
+
+        $s->id = $fields['id'];
+        $s->canonicalUrl = $fields['canonical_s'];
+        $s->language = $fields['language_s'];
+        $s->title = $fields['title_s'];
+        $s->date = $fields['date_date'];
+        $s->score = $fields['score'];
+
+        return $s;
+    }
+
+    private static function getDate(\DateTimeInterface $date): string
+    {
+        /** @var \DateTimeInterface $input */
+        $input = clone $date;
+
+        return $input->format(self::SOLR_DATE_FORMAT);
+    }
+}
