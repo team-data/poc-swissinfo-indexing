@@ -1,0 +1,111 @@
+{% extends 'base.html.twig' %}
+{% block title %}Clustering{% endblock %}
+
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-7">
+            <form id="config" method="GET" action="{{ url('clustering') }}">
+                <div class="form-row align-items-center">
+                    <div class="col-auto">
+                        <input type="checkbox" class="form-check-input" id="exclude" name="exclude">
+                        <label class="form-check-label" for="exclude">Exclude not-grouped</label>
+                    </div>
+                    <div class="col-auto">
+                        <label for="engine" class="sr-only">Clustering Engine</label>
+                        <select class="form-control" id="engine" name="engine">
+                            <option>kmeans</option>
+                            <option>lingo</option>
+                            <option>stc</option>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <label for="display" class="sr-only">Display mode</label>
+                        <select class="form-control" id="display" name="display">
+                            <option>sunburst</option>
+                            <option>bubble</option>
+                        </select>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-7" id="chart"><svg
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:xlink="http://www.w3.org/1999/xlink">></svg>
+        </div>
+        <div class="col-md-5" id="details"></div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="{{ asset('js/bubbleChart.js') }}"></script>
+    <script src="{{ asset('js/sunburstChart.js') }}"></script>
+    <script>
+        $(document).ready(function () {
+            refreshChart(window.location.search);
+        });
+        $("#config").submit(function (event) {
+            event.preventDefault();
+            let urlParams = $("#config").serialize();
+            let originUrl = window.location.origin+window.location.pathname;
+            history.replaceState(null, '', originUrl+'?'+urlParams);
+
+            refreshChart(urlParams);
+        });
+
+        function refreshChart(urlParams) {
+            let m = new URLSearchParams(urlParams);
+            let display = m.get("display");
+            let exclude = m.get("exclude");
+            let engine = m.get("engine");
+
+            switch (display) {
+                case "sunburst":
+                    dataUrl = '{{ url('clustering_data_hierarchy') }}';
+                    chart = sunburstChart();
+                    break;
+                case "bubble":
+                default:
+                    dataUrl = '{{ url('clustering_data') }}';
+                    chart = bubbleChart();
+            }
+            let params = {
+                "exclude": exclude,
+                "engine": engine,
+            };
+
+            $('#chart svg').html('');
+            $('#details').html('');
+
+            let queryString = Object.keys(params).map(key => key + '=' + params[key]).join('&');
+
+            d3.json(dataUrl+'?'+queryString, function(error, data) {
+                if (error) {
+                    console.error('Error getting or parsing the data.');
+                    console.error(error);
+                    throw error;
+                }
+
+                chart
+                    .detailsContainer('#details')
+                    .linkBaseUrl("http://www.liip.ch/en/blog/")
+                    .width(960)
+                    .height(960);
+
+                d3.select('#chart').datum(data).call(chart);
+            });
+        }
+
+
+
+    </script>
+{% endblock %}

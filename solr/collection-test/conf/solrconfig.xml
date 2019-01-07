@@ -834,11 +834,11 @@
       <!-- Default engine set to "lingo", can be set at query time in the url "?clustering.engine=kmeans" -->
       <str name="clustering.engine">lingo</str>
       <!-- Field name with the logical "title" of a each document (optional) -->
-      <str name="carrot.title">article_title_txt</str>
+      <str name="carrot.title">title_txt</str>
       <!-- Field name with the logical "URL" of a each document (optional) -->
-      <str name="carrot.url">article_url_str</str>
+      <str name="carrot.url">canonical_s</str>
       <!-- Field name with the logical "content" of a each document (optional) -->
-      <str name="carrot.snippet">article_contents_txt</str>
+      <str name="carrot.snippet">contents_txt</str>
       <!-- Apply highlighter to the title/ content and use this for clustering. -->
       <!-- <bool name="carrot.produceSummary">true</bool> -->
       <!-- the maximum number of labels per cluster -->
@@ -848,7 +848,7 @@
 
       <!-- Configure the remaining request handler parameters. -->
       <str name="defType">edismax</str>
-      <str name="qf">article_title_txt^2.0 article_contents_txt</str>
+      <str name="qf"></str>
       <str name="q.alt">*:*</str>
       <str name="rows">100</str>
       <str name="fl">*,score</str>

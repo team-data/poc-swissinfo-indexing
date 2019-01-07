@@ -44,7 +44,7 @@ class IndexPageDetailHandler implements MessageHandlerInterface
 
     public function __invoke(IndexPageDetail $message): void
     {
-        $this->logger->info('Fetching page-detail "{id}"', ['id' => $message->getId()]);
+        $this->logger->debug('Fetching page-detail "{id}"', ['id' => $message->getId()]);
         try {
             $detail = $this->client->getPageDetail($message->getId());
         } catch (APIException $exception) {

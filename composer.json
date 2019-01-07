@@ -11,12 +11,15 @@
         "php-http/httplug-bundle": "^1.11",
         "pnz/json-exception": "^0.1.0",
         "pnz/messenger-filesystem-transport": "^0.1.3",
+        "pnz/solarium-clustering-query": "dev-master",
+        "symfony/asset": "4.2.*",
         "symfony/console": "4.2.*",
         "symfony/dotenv": "4.2.*",
         "symfony/flex": "^1.1",
         "symfony/framework-bundle": "4.2.*",
         "symfony/messenger": "4.2.*",
         "symfony/monolog-bundle": "^3.3",
+        "symfony/twig-bundle": "4.2.*",
         "symfony/yaml": "4.2.*"
     },
     "require-dev": {

@@ -73,14 +73,14 @@ class Crawler
     private function enqueueDetailForIndexing(string $id, bool $recursive): void
     {
         if ($this->searcher->existsPageDetail($id)) {
-            $this->logger->notice('Skipping {id}, as it is indexed already', [
+            $this->logger->info('Skipping {id}, as it is indexed already', [
                 'id' => $id,
             ]);
 
             return;
         }
 
-        $this->logger->notice('Queuing page-detail for indexing "id={id}"', ['id' => $id]);
+        $this->logger->info('Queuing page-detail for indexing "id={id}"', ['id' => $id]);
         $message = new IndexPageDetail($id, $recursive);
         $this->messageBus->dispatch($message);
     }
