@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+{% block title %}Clustering{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    {% if started %}
+        <div class="alert alert-info" role="alert">Crawling has started!</div>
+    {% endif %}
+    <div class="row">
+        <div class="col-md-7">
+            <form id="config" method="GET" action="{{ url('crawler-start') }}">
+                <div class="form-row align-items-center">
+                    <div class="col-auto">
+                        <input type="checkbox" class="form-check-input" id="recursive" name="recursive" checked="checked">
+                        <label class="form-check-label" for="recursive">Recursive</label>
+                        <small id="recursive-help" class="form-text text-muted">Recursively crawl pages</small>
+                    </div>
+                    <div class="col-auto">
+                        <label for="page-id" class="sr-only">Page Detail-ID</label>
+                        <input type="text" class="form-control" id="page-id" name="page-id" value="{{ page_id }}" />
+                        <small id="page-id-help" class="form-text text-muted">Example: 42579872/44625394</small>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">Go fetch!</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
