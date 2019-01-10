@@ -16,7 +16,7 @@ class CrawlerController extends AbstractController
     public function index(Request $request, Crawler $crawler): Response
     {
 
-        $pageId = $request->query->get('page-id');
+        $pageId = trim($request->query->get('page-id'));
         $recursive = $request->query->getBoolean('recursive');
 
         $started = false;
