@@ -1,6 +1,7 @@
 <?php
 
 use Symfony\Component\Dotenv\Dotenv;
+use App\PlatformshEnv;
 
 require dirname(__DIR__).'/vendor/autoload.php';
 
@@ -15,6 +16,8 @@ if ('prod' !== $_SERVER['APP_ENV']) {
 
     (new Dotenv())->loadEnv(dirname(__DIR__).'/.env');
 }
+
+PlatformshEnv::setEnvs();
 
 $_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = $_SERVER['APP_ENV'] ?: $_ENV['APP_ENV'] ?: 'dev';
 $_SERVER['APP_DEBUG'] = $_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? 'prod' !== $_SERVER['APP_ENV'];
