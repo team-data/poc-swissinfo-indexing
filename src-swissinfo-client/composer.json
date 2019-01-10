@@ -5,6 +5,7 @@
   "require": {
     "php": ">= 7.2",
     "ext-json": "*",
-    "php-http/client-common": "2.x-dev"
+    "pnz/json-exception": "^0.1",
+    "php-http/client-common": "^1.9"
   }
 }
