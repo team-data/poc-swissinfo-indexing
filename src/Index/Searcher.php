@@ -51,9 +51,10 @@ class Searcher
 
         $query = new SelectQuery();
         $query->setQuery($queryString);
+        $query->setFields(SolrPageDetailEntity::getSearchResultFields());
 
         if ('' === $queryString) {
-            $query->addSort('date_s', 'DESC');
+            $query->addSort('date_date', 'DESC');
         }
 
         $dismax = $query->getEDisMax();
@@ -62,6 +63,12 @@ class Searcher
             'contents_txt',
             'title_txt^2',
         ]));
+
+        // Computes: recip(x,m,a,b) = a/(m*x+b), where
+        // x = ms(NOW,date_date)
+        // a = b = 1
+        // m = 3.16e-11
+        $dismax->setBoostFunctions('recip(ms(NOW,date_date),3.16e-11,1,1)');
 
         /** @var SelectResult $result */
         $result = $this->solrClient->select($query);

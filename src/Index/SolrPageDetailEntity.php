@@ -46,6 +46,18 @@ class SolrPageDetailEntity
         return $s;
     }
 
+    public static function getSearchResultFields(): array
+    {
+        return [
+            'id',
+            'canonical_s',
+            'title_s',
+            'date_date',
+            'language_s',
+            'score',
+        ];
+    }
+
     private static function getDate(\DateTimeInterface $date): string
     {
         /** @var \DateTimeInterface $input */
