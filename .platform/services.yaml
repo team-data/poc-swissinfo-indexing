@@ -2,4 +2,9 @@ solrsearch:
     type: solr:6.6
     disk: 1024
     configuration:
-        conf_dir: !archive "solrconf"
+        cores:
+            mainindex:
+                conf_dir: !archive "solrconf"
+        endpoints:
+            solr:
+                core: mainindex

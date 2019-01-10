@@ -54,3 +54,8 @@ web:
             # The front-controller script to send non-static requests to.
             passthru: "/index.php"
 
+# workers:
+#     queue:
+#         size: S
+#         commands:
+#             start: "bin/console messenger:consume-messages"
