@@ -21,5 +21,6 @@
     - { role: phive }
 
     - role: solr7
+      solr_version: "6.6.5"
       solr_core_name: "collection-test"
       solr_core_conf: "/vagrant/solr/collection-test/conf"
