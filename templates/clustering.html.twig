@@ -6,11 +6,16 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-7">
-            <form id="config" method="GET" action="{{ url('clustering') }}">
+            <form id="config" method="GET" action="{{ url('app_clustering_index') }}">
                 <div class="form-row align-items-center">
                     <div class="col-auto">
                         <input type="checkbox" class="form-check-input" id="exclude" name="exclude">
                         <label class="form-check-label" for="exclude">Exclude not-grouped</label>
+                    </div>
+                    <div class="col-auto">
+                        <label for="results" class="sr-only">Results</label>
+                        <input type="text" class="form-control" id="results" name="results" value="{{ results }}" />
+                        <small id="results-help" class="form-text text-muted">Number of results to cluster</small>
                     </div>
                     <div class="col-auto">
                         <label for="engine" class="sr-only">Clustering Engine</label>
@@ -19,6 +24,7 @@
                             <option>lingo</option>
                             <option>stc</option>
                         </select>
+                        <small id="engine-help" class="form-text text-muted">Clustering engine to use</small>
                     </div>
                     <div class="col-auto">
                         <label for="display" class="sr-only">Display mode</label>
@@ -26,6 +32,7 @@
                             <option>sunburst</option>
                             <option>bubble</option>
                         </select>
+                        <small id="display-help" class="form-text text-muted">Display mode</small>
                     </div>
                     <div class="col-auto">
                         <button type="submit" class="btn btn-primary">Update</button>
@@ -67,20 +74,22 @@
             let display = m.get("display");
             let exclude = m.get("exclude");
             let engine = m.get("engine");
+            let results = m.get("results");
 
             switch (display) {
                 case "sunburst":
-                    dataUrl = '{{ url('clustering_data_hierarchy') }}';
+                    dataUrl = '{{ url('app_api_clustering_datahierarchy') }}';
                     chart = sunburstChart();
                     break;
                 case "bubble":
                 default:
-                    dataUrl = '{{ url('clustering_data') }}';
+                    dataUrl = '{{ url('app_api_clustering_data') }}';
                     chart = bubbleChart();
             }
             let params = {
                 "exclude": exclude,
                 "engine": engine,
+                "results": results,
             };
 
             $('#chart svg').html('');

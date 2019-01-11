@@ -11,13 +11,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class CrawlerController extends AbstractController
 {
     /**
-     * @Route("/crawler-start", name="crawler-start")
+     * @Route("/crawler/start")
      */
-    public function index(Request $request, Crawler $crawler): Response
+    public function start(Request $request, Crawler $crawler): Response
     {
 
-        $pageId = trim($request->query->get('page-id'));
-        $recursive = $request->query->getBoolean('recursive');
+        $pageId = trim($request->request->get('page-id'));
+        $recursive = $request->request->getBoolean('recursive');
 
         $started = false;
         if ($pageId) {

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search!{% endblock %}
+
+
+{% block body %}
+    <div class="container-fluid">
+        <h2>Search</h2>
+        <div class="row">
+            <div class="col-md-7">
+                <form id="config" method="POST" action="{{ url('app_search_index') }}">
+                    <div class="form-row align-items-center">
+                        <div class="col-auto">
+                            <label for="keywords" class="sr-only">Keywords</label>
+                            <input type="text" class="form-control" id="keywords" name="keywords" value="{{ keywords }}" />
+                            <small id="results-help" class="form-text text-muted">Search</small>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in results.items %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td class="results" data-canonical-url="{{ item.canonicalUrl }}">
+                            <img height="50" src="https://swissinfo.ch/{{ item.smallImage }}"/>
+                            <a href="{{ item.canonicalUrl }}">{{ item.title }}</a> ({{ item.language }})
+                        </td>
+                        <td>{{ item.date|date("m.d.Y") }}</td>
+                        <td>{{ item.score }}</td>
+                        <td><a href="{{ url('app_search_like', {'url': item.canonicalUrl}) }}">Similar Items</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>Total results: {{ results.numFound }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+{% endblock %}

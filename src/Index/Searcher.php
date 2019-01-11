@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Index;
 
+use App\Model\SearchMLTResultList;
 use App\Model\SearchResultList;
 use Solarium\Client;
 use Solarium\QueryType\MoreLikeThis\Query as MoreLikeThisQuery;
@@ -75,27 +76,36 @@ class Searcher
         return $searchResultList;
     }
 
-    public function searchMoreLikeThis(string $url): SearchResultList
+    public function searchMoreLikeThis(string $url): SearchMLTResultList
     {
         $query = new MoreLikeThisQuery();
         $query->setQuery(sprintf('canonical_s:"%s"', $query->getHelper()->escapeTerm($url)));
         $query->setFields(SolrPageDetailEntity::getSearchResultFields());
         $query->setMltFields(['contents_txt_en', 'title_txt']);
         $query->setMatchInclude(false);
-        $query->setMinimumTermFrequency(3);
-        $query->setMaximumQueryTerms(5);
+        $query->setMinimumTermFrequency(2);
+        $query->setMaximumQueryTerms(4);
         $query->setMinimumWordLength(3);
         $query->setMinimumDocumentFrequency(5);
 
         $query->setQueryFields(['contents_en_txt', 'title_txt^2']);
-        // $query->setInterestingTerms('details');
+        $query->setInterestingTerms('details');
         $query->setBoost(true);
 
         /** @var MoreLikeThisResult $result */
         $result = $this->solrClient->execute($query);
 
-        $searchResultList = new SearchResultList();
+        $searchResultList = new SearchMLTResultList();
         $searchResultList->numFound = $result->getNumFound();
+
+        foreach ($result->getInterestingTerms() as $term => $boost) {
+            $parts = explode(':', $term);
+            $searchResultList->interestingTerms[] = sprintf('%s^%.1f', end($parts), $boost);
+        }
+        $searchResultList->interestingTerms = array_reverse($searchResultList->interestingTerms);
+
+        $result->getInterestingTerms();
+        $searchResultList->originalSearch = $url;
 
         /** @var SelectResultDocument $item */
         foreach ($result as $item) {

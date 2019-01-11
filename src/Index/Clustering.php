@@ -2,10 +2,9 @@
 
 namespace App\Index;
 
-
 use App\Model\Cluster;
 use App\Model\HierarchyCluster;
-use Pnz\SolariumClustering\QueryType\Result\Result;
+use Pnz\SolariumClustering\QueryType\Result\Result as ClusterResult;
 use Pnz\SolariumClustering\QueryType\Query as ClusterQuery;
 use Solarium\Client;
 
@@ -25,15 +24,16 @@ class Clustering
     /**
      * @return Cluster[]
      */
-    public function getClusters(string $engine, bool $excludeOthers = false): array
+    public function getClusters(string $engine, bool $excludeOthers = false, int $numResults = 200): array
     {
-        $q = new ClusterQuery();
+        $query = new ClusterQuery();
 
-        $q->setRows(1000);
-        $q->setClusteringEngine($engine);
+        $query->setRows($numResults);
+        $query->setClusteringEngine($engine);
+        $query->setFields(SolrPageDetailEntity::getSearchResultFields());
 
-        /** @var Result $res */
-        $res = $this->solrClient->execute($q);
+        /** @var ClusterResult $res */
+        $res = $this->solrClient->execute($query);
 
         $return = [];
         foreach ($res->getClusters() as $cluster) {
@@ -52,9 +52,9 @@ class Clustering
         return $return;
     }
 
-    public function getHierarchyClusters(string $rootName, string $engine, bool $exclude): HierarchyCluster
+    public function getHierarchyClusters(string $rootName, string $engine, bool $exclude, int $numResults): HierarchyCluster
     {
-        $data = $this->getClusters($engine, $exclude);
+        $data = $this->getClusters($engine, $exclude, $numResults);
         $root = new HierarchyCluster($rootName);
         foreach ($data as $cluster) {
             $node = new HierarchyCluster($cluster->label);

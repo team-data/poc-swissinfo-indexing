@@ -1,5 +1,5 @@
 {% extends 'base.html.twig' %}
-{% block title %}Clustering{% endblock %}
+{% block title %}Crawler start{% endblock %}
 
 {% block body %}
 <div class="container-fluid">
@@ -8,7 +8,7 @@
     {% endif %}
     <div class="row">
         <div class="col-md-7">
-            <form id="config" method="GET" action="{{ url('crawler-start') }}">
+            <form id="config" method="POST" action="{{ url('app_crawler_start') }}">
                 <div class="form-row align-items-center">
                     <div class="col-auto">
                         <input type="checkbox" class="form-check-input" id="recursive" name="recursive" checked="checked">

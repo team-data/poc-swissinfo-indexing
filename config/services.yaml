@@ -22,6 +22,9 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+    App\Controller\Api\:
+        resource: '../src/Controller/Api'
+        tags: ['controller.service_arguments']
 
     Liip\SwissinfoClient\:
         resource: '../src-swissinfo-client/*'

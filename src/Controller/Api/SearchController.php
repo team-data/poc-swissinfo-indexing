@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Api;
 
 use App\Index\Searcher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,7 +25,7 @@ class SearchController extends AbstractController
     }
 
     /**
-     * @Route("/search", name="search")
+     * @Route("/search")
      */
     public function search(Request $request): JsonResponse
     {
@@ -37,7 +37,7 @@ class SearchController extends AbstractController
     }
 
     /**
-     * @Route("/search-like", name="search-like")
+     * @Route("/search-like")
      */
     public function searchLike(Request $request): JsonResponse
     {

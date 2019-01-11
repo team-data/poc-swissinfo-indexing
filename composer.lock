@@ -1305,12 +1305,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thePanz/php-solarium-clustering.git",
-                "reference": "16a77cbe002e47860d2187adcbf8890ff879dae0"
+                "reference": "324238fd9af4913dd8c5d1ee4b00a9d5087857c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thePanz/php-solarium-clustering/zipball/16a77cbe002e47860d2187adcbf8890ff879dae0",
-                "reference": "16a77cbe002e47860d2187adcbf8890ff879dae0",
+                "url": "https://api.github.com/repos/thePanz/php-solarium-clustering/zipball/324238fd9af4913dd8c5d1ee4b00a9d5087857c7",
+                "reference": "324238fd9af4913dd8c5d1ee4b00a9d5087857c7",
                 "shasum": ""
             },
             "require": {
@@ -1334,7 +1334,7 @@
                 "LGPL-3.0"
             ],
             "description": "Solarium Query support for Clustering handler",
-            "time": "2019-01-07T09:53:38+00:00"
+            "time": "2019-01-11T13:39:27+00:00"
         },
         {
             "name": "psr/cache",

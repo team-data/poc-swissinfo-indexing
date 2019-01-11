@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Related documents{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h2>Related documents</h2>
+        <div class="row">
+            <div class="col-md-7">
+                <form id="config" method="POST" action="{{ url('app_search_like', {'debug': debug is defined and debug }) }}">
+                    <div class="form-row align-items-center">
+                        <div class="col-auto">
+                            <label for="url" class="sr-only">Keywords</label>
+                            <input type="text" class="form-control" size="100" id="url" name="url" value="{{ url }}" />
+                            <small id="results-help" class="form-text text-muted">Original document URL</small>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {%  if debug is defined and debug %}
+            <div class="col-md-4 border border-dark">
+                <a href="{{ results.originalSearch }}">Original article</a>
+                <hr>
+                Related terms (stemmed, with boosting)
+                <ol>{% for interestingTerm in results.interestingTerms %}
+                    <li><var>{{ interestingTerm}}</var></li>
+                {% endfor %}
+                </ol>
+
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in results.items %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td class="results" data-canonical-url="{{ item.canonicalUrl }}">
+                            <img height="50" src="https://swissinfo.ch/{{ item.smallImage }}"/>
+                            <a href="{{ item.canonicalUrl }}">{{ item.title }}</a> ({{ item.language }})
+                        </td>
+                        <td>{{ item.date|date("m.d.Y") }}</td>
+                        <td>{{ item.score }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>Total results: {{ results.numFound }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+{% endblock %}
