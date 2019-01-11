@@ -42,7 +42,7 @@
                         </td>
                         <td>{{ item.date|date("m.d.Y") }}</td>
                         <td>{{ item.score }}</td>
-                        <td><a href="{{ url('app_search_like', {'url': item.canonicalUrl}) }}">Similar Items</a></td>
+                        <td><a href="{{ url('app_search_like', {'url': item.canonicalUrl}) }}">Search Related</a></td>
                     </tr>
                     {% endfor %}
                 </tbody>
