@@ -20,6 +20,7 @@ class SolrPageDetailEntity
         $d->addField('id', $id);
         $d->addField('language_s', $header->getLanguage());
         $d->addField('title_s', $header->getTitle());
+        $d->addField('small_image_s', $header->getSmallImage());
         $d->addField('title_txt', $header->getTitle());
         $d->addField('date_date', self::getDate($header->getDate()));
 
@@ -38,6 +39,7 @@ class SolrPageDetailEntity
         $fields = $doc->getFields();
 
         $s->id = $fields['id'];
+        $s->smallImage = $fields['small_image_s'] ?? '';
         $s->canonicalUrl = $fields['canonical_s'] ?? '';
         $s->language = $fields['language_s'];
         $s->title = $fields['title_s'];
@@ -53,6 +55,7 @@ class SolrPageDetailEntity
             'id',
             'canonical_s',
             'title_s',
+            'small_image_s',
             'date_date',
             'language_s',
             'score',

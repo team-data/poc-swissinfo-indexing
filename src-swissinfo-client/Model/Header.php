@@ -41,6 +41,11 @@ class Header implements ModelInterface
      */
     private $subjectTags = [];
 
+    /**
+     * @var string|null
+     */
+    private $smallImage;
+
     private function __construct()
     {
     }
@@ -57,6 +62,9 @@ class Header implements ModelInterface
         }
         if (array_key_exists('source', $data)) {
             $i->source = $data['source'];
+        }
+        if (array_key_exists('smallImage', $data)) {
+            $i->smallImage = $data['smallImage'];
         }
         if (array_key_exists('canonical', $data)) {
             $i->canonical = $data['canonical'];
@@ -92,6 +100,11 @@ class Header implements ModelInterface
     public function getSource(): ?string
     {
         return $this->source;
+    }
+
+    public function getSmallImage(): ?string
+    {
+        return $this->smallImage;
     }
 
     public function getCanonical(): ?string

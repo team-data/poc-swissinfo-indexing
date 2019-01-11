@@ -35,4 +35,9 @@ class SearchResult
      * @var string
      */
     public $date;
+
+    /**
+     * @var string
+     */
+    public $smallImage;
 }
