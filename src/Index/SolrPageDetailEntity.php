@@ -38,7 +38,7 @@ class SolrPageDetailEntity
         $fields = $doc->getFields();
 
         $s->id = $fields['id'];
-        $s->canonicalUrl = $fields['canonical_s'];
+        $s->canonicalUrl = $fields['canonical_s'] ?? '';
         $s->language = $fields['language_s'];
         $s->title = $fields['title_s'];
         $s->date = $fields['date_date'];
