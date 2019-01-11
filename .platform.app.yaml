@@ -28,7 +28,7 @@ hooks:
 
     deploy: |
         set -e
-        bin/console cache:clear
+        bin/console cache:warmup
     # bin/console assets:install --symlink --relative public
 
 # The relationships of the application with services or other applications.
