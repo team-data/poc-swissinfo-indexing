@@ -61,6 +61,9 @@ class Header implements ModelInterface
         if (array_key_exists('canonical', $data)) {
             $i->canonical = $data['canonical'];
         }
+        if (array_key_exists('canonicalUrl', $data)) {
+            $i->canonical = $data['canonicalUrl'];
+        }
 
         if (\is_array($data['subjectTags'] ?? null)) {
             foreach ($data['subjectTags'] as $tagData) {
