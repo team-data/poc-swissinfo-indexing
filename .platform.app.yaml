@@ -40,7 +40,8 @@ relationships:
     rabbitmq: "rabbitmq:rabbitmq"
 
 # The size of the persistent disk of the application (in MB).
-disk: 1024
+disk: 256
+size: S
 
 # The mounts that will be performed when the package is deployed.
 mounts:
@@ -61,6 +62,5 @@ web:
 # Disabled workers: mounts are not shared with main container
 workers:
     queue:
-        size: S
         commands:
             start: "bin/console messenger:consume-messages"
