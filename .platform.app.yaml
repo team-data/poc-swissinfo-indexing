@@ -59,9 +59,8 @@ web:
             passthru: "/index.php"
 
 # Disabled workers: mounts are not shared with main container
-# workers:
-#     queue:
-#         size: S
-#         commands:
-#             start: "bin/console messenger:consume-messages"
-#
+workers:
+    queue:
+        size: S
+        commands:
+            start: "bin/console messenger:consume-messages"
