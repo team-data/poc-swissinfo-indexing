@@ -25,8 +25,9 @@ class SolrPageDetailEntity
 
         $d->addField('canonical_s', $header->getCanonical());
 
-        $d->addField('contents_txt_en', $pageDetail->getHtmlDetail());
-        $d->addField('contents_txt', strip_tags($pageDetail->getHtmlDetail()));
+        $text = preg_replace('/\s+/', ' ', strip_tags($pageDetail->getHtmlDetail()));
+        $text = htmlspecialchars_decode($text, ENT_QUOTES);
+        $d->addField('contents_txt_en', $text);
 
         return $d;
     }

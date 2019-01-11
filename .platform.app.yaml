@@ -9,6 +9,10 @@ type: php:7.2
 build:
     flavor: composer
 
+runtime:
+    extensions:
+        - amqp
+
 variables:
     env:
         # Tell Symfony to always install in production-mode.
@@ -33,7 +37,7 @@ hooks:
 # side is in the form `<service name>:<endpoint name>`.
 relationships:
     solr: "solrsearch:solr"
-
+    rabbitmq: "rabbitmq:rabbitmq"
 
 # The size of the persistent disk of the application (in MB).
 disk: 1024

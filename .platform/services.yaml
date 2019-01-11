@@ -1,6 +1,6 @@
 solrsearch:
     type: solr:6.6
-    disk: 1024
+    disk: 512
     configuration:
         cores:
             mainindex:
@@ -8,3 +8,7 @@ solrsearch:
         endpoints:
             solr:
                 core: mainindex
+
+rabbitmq:
+    type: rabbitmq:3.7
+    disk: 512

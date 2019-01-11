@@ -858,6 +858,32 @@
     </arr>
   </requestHandler>
 
+  <requestHandler
+          name="/mlt"
+          startup="lazy"
+          class="solr.MoreLikeThisHandler">
+    <lst name="defaults">
+      <!--similar documents defaults-->
+      <!--The fields to use for similarity-->
+      <str name="mlt.fl">contents_txt,title_txt</str>
+      <!--Minimum Term Frequency - the frequency below which terms will be ignored in the source doc.-->
+      <int name="mlt.mintf">2</int>
+      <!--Minimum Document Frequency - the frequency at which words will be ignored which do not occur in at least this many docs.-->
+      <int name="mlt.mintf">5</int>
+      <!--minimum word length below which words will be ignored.-->
+      <int name="mlt.mintf">0</int>
+      <!--maximum word length above which words will be ignored.-->
+      <int name="mlt.mintf">0</int>
+      <!--maximum number of query terms that will be included in any generated query.-->
+      <int name="mlt.mintf">25</int>
+      <!--maximum number of query terms that will be included in any generated query.-->
+      <int name="mlt.mintf">25</int>
+      <bool name="mlt">true</bool>
+
+      <bool name="mlt.match.include">false</bool>
+    </lst>
+  </requestHandler>
+
   <queryResponseWriter name="json" class="solr.JSONResponseWriter">
     <!-- For the purposes of the tutorial, JSON responses are written as
      plain text so that they are easy to read in *any* browser.

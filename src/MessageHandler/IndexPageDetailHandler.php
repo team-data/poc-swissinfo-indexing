@@ -9,6 +9,7 @@ use App\Index\Indexer;
 use App\Message\IndexPageDetail;
 use Liip\SwissinfoClient\Client;
 use Liip\SwissinfoClient\Exception\APIException;
+use Liip\SwissinfoClient\Exception\HydrationException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
@@ -47,8 +48,13 @@ class IndexPageDetailHandler implements MessageHandlerInterface
         $this->logger->debug('Fetching page-detail "{id}"', ['id' => $message->getId()]);
         try {
             $detail = $this->client->getPageDetail($message->getId());
-        } catch (APIException $exception) {
-            throw $exception;
+        } catch (APIException|HydrationException $exception) {
+            $this->logger->error('Unable to fetch page: {page}: {error}', [
+                'page' => $message->getId(),
+                'error' => $exception->getMessage(),
+            ]);
+
+            return;
         }
 
         // Index the page detail
